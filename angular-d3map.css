@@ -1,0 +1,223 @@
+/*html, body{*/
+  /*margin: 0;*/
+  /*font: 14px/16px "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+/*}*/
+
+/*#container{*/
+  /*min-width: 960px;*/
+/*}*/
+
+/* MAP */
+.country {
+  /* fill: #dddddd;
+  stroke: #111111; */
+  fill: #f7f7f7;
+}
+
+.country-boundaries {
+  /* fill: #dddddd;
+  stroke: #111111; */
+  fill: none;
+  stroke: #777777;
+  stroke-width: 1;
+}
+
+.canton-boundaries {
+  fill: none;
+  /* stroke: #111111; */
+  stroke: #bbb;
+  stroke-width: 1;
+}
+
+.lake {
+  fill: #7777ff;
+}
+
+.land {
+  fill: #f7f7f7;
+  stroke: #ccc;
+}
+
+.state-boundary {
+  fill: none;
+  stroke: #bbb;
+}
+
+/* POINTS */
+circle{
+  fill: none;
+  stroke: #999;
+}
+circle.gain{
+  fill: #67cfa9;
+  stroke: #fff;
+}
+circle.loss{
+  fill: #ef8a62;
+  stroke: #fff;
+}
+#map circle{
+  opacity: .65;
+}
+#map circle:hover{
+  stroke: black;
+  stroke-width: 2;
+}
+
+#map-container{
+  margin: auto;
+}
+
+/* SLIDER */
+#slider-container{
+  margin: auto;
+  margin-top: 20px;
+}
+
+#slider-label, #slider-button, #slider-bar {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#slider-label {
+  border-left: 5px solid #ccc;
+  padding: 3px 0 3px 10px;
+  margin-left: 20px;
+  color: #333;
+}
+#slider-label p{
+  margin: 0;
+}
+#slider-label p:first-child{
+  color: #999;
+  font-size: 11px;
+  line-height: 13px;
+}
+#slider-label p#label-text{
+  font-size: 24px;
+  line-height: 24px;
+}
+#slider-label p#label-text span{
+  float: left;
+  width: 4.75em;
+}
+
+#slider-button {
+  width: 53px;
+  height: 53px;
+  background-image: url(./images/play.png);
+  border-radius: 5px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+#slider-button:hover{
+  background-position: 0 -53px;
+}
+
+#slider-button.pause{
+  background-image: url(./images/pause.png);
+}
+
+#slider-bar {
+  margin-left: 20px;
+}
+
+#slider-probe{
+  position: absolute;
+  top: -20px;
+  font-size: 12px;
+  width: 70px;
+  margin-left: -35px;
+  z-index: 50;
+  display: none;
+}
+
+#slider-probe p{
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  height: 15px;
+}
+
+#slider-probe div{
+  height: 15px;
+  margin-left: 35px;
+  border-left: 1px solid #999;
+}
+
+#axis path{
+  fill: none;
+}
+
+#axis .tick line{
+  stroke: #999;
+}
+
+#axis .tick text{
+  font-size: 12px;
+}
+
+#probe{
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  display: none;
+  font-size: 12px;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
+}
+
+#probe strong{
+  font-size: 16px;
+}
+
+#probe span{
+  color: #999;
+}
+
+#legend text{
+  font-size: 12px;
+}
+
+svg text{
+  fill: #666;
+}
+
+h1, h2, #intro{
+  text-align: center;
+  font-weight: normal;
+}
+h1{
+  font-size: 30px;
+  margin: 20px;
+  color: #1a1a1a;
+}
+h2{
+  font-size: 18px;
+  color: #999;
+  margin: 15px;
+}
+#intro{
+  width: 800px;
+  margin: auto;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; line-height: 18px;
+}
+
+#source{
+  color: #999;
+  font-size: 12px;
+  margin-left: 60px;
+  margin-top: 20px;
+}
+
+#axis-maps{
+  float: right;
+  margin-top: 20px;
+  margin-right: 20px;
+  border: none;
+}
+
