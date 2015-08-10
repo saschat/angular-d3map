@@ -1,0 +1,30 @@
+{
+  "name": "angular-d3map",
+  "main": [
+    "angular-d3map.js",
+    "angular-d3map.css
+  ],
+  "version": "0.1.0",
+  "homepage": "https://github.com/saschat/angular-d3map",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saschat/angular-d3map.git"
+  },
+  "authors": [
+    "Sascha Trifunovic <sascha.trifunovic@gmail.com>"
+  ],
+  "description": "Angular directive to represent dynamic data on a map using d3",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.3",
+    "d3": "~3.5.6",
+    "d3.slider": "~0.1.0"
+  }
+}
