@@ -2,13 +2,13 @@
   "name": "angular-d3map",
   "main": [
     "angular-d3map.js",
-    "angular-d3map.css
+    "angular-d3map.css"
   ],
   "version": "0.1.0",
   "homepage": "https://github.com/saschat/angular-d3map",
   "repository": {
     "type": "git",
-    "url": "https://github.com/saschat/angular-d3map.git"
+    "url": "git://github.com/saschat/angular-d3map.git"
   },
   "authors": [
     "Sascha Trifunovic <sascha.trifunovic@gmail.com>"
