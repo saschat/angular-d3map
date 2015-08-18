@@ -20,8 +20,9 @@
             center_lat: 46.801111,
             center_lon: 8.226667,
             slider: true,
-            slider_pos: top,
-            frame_length: 500
+            slider_pos: 'top',
+            frame_length: 500,
+            legend: false
           };
           scope._opt = angular.extend(defaultOptions, scope.options);
           configMap();
@@ -60,17 +61,6 @@
             // Slider
             scope.sliderContainer = scope.d3mapContainer.append('div')
               .attr('id', 'slider-container');
-            scope.sliderContainer
-              .append('div')
-              .attr('id', 'slider-label')
-              .append('p')
-              .attr('id', 'label-text');
-            scope.sliderContainer
-              .append('div')
-              .attr('id', 'slider-button');
-            scope.sliderContainer
-              .append('div')
-              .attr('id', 'slider-bar');
 
             // Map
             scope.mapContainer = scope.d3mapContainer.append('div')
@@ -154,11 +144,34 @@
           }
 
           function createSlider(){
+            if(scope._opt.slider == false){
+              return;
+            }
+            var before = null;
+            if(scope._opt.slider_pos == 'top'){
+              before = '#map-container';
+            }
+            scope.sliderContainer.remove();
+            scope.sliderContainer = scope.d3mapContainer.insert('div', before)
+              .attr('id', 'slider-container');
+            scope.sliderContainer
+              .append('div')
+              .attr('id', 'slider-label')
+              .append('p')
+              .attr('id', 'label-text');
+            scope.sliderContainer
+              .append('div')
+              .attr('id', 'slider-button');
+            scope.sliderContainer
+              .append('div')
+              .attr('id', 'slider-bar');
+
             scope.rangeScale = d3.scale.linear()
               .domain([scope._pointData.range.min, scope._pointData.range.max])
               .range([0, scope._opt.width - 260]);
             createSliderBar();
             configSliderButton();
+            setSliderLabel();
           }
 
           function configSliderButton(){
@@ -218,16 +231,18 @@
                 });
             }
 
-            setSliderLabel(index);
+            setSliderLabel();
             if(scope.mapProbeData){
               setMapProbeContent();
             }
           }
 
-          function setSliderLabel(index){
-            var iStr = index.toString();
-            var html = "<span>" + scope._pointData.labels[iStr] + "</span> ";
-            d3.select("#slider-label p#label-text").html(html);
+          function setSliderLabel(){
+            if(scope.currentFrame && scope.slider){
+              var iStr = scope.currentFrame.toString();
+              var html = "<span>" + scope._pointData.labels[iStr] + "</span> ";
+              d3.select("#slider-label p#label-text").html(html);
+            }
           }
 
           function animate(){
@@ -316,6 +331,9 @@
           }
 
           function createLegend(){
+            if(scope._opt.legend == false){
+              return;
+            }
             var tran_leg = scope._opt.width - 180;
             scope.legend.remove();
             scope.legend = scope.svgCanvas.append("g")
@@ -381,9 +399,10 @@
             scope.mapGroup.attr('transform', 'translate(' + 0 + ' ' + 0 + ') scale(' + scale + ')');
             scope.legend.attr('transform', 'translate(' + tran_leg + ')');
 
-            scope.rangeScale.range([0, scope._opt.width * scale - 260]); // + w - scope._opt.width]);
-
-            createSliderBar();
+            if(scope._opt.slider == true){
+              scope.rangeScale.range([0, scope._opt.width * scale - 260]); // + w - scope._opt.width]);
+              createSliderBar();
+            }
           }
 
           function refreshAll(){
