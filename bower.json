@@ -4,7 +4,7 @@
     "angular-d3map.js",
     "angular-d3map.css"
   ],
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/saschat/angular-d3map",
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   "dependencies": {
     "angular": "~1.4.3",
     "d3": "~3.5.6",
-    "d3.slider": "*"
+    "d3.slider": "*",
+    "topojson": "~1.6.19"
   }
 }
