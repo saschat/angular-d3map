@@ -16,6 +16,17 @@ bower install angular-d3map
 ```
 If a filename is passed, d3 will load the data inside the directive which is much faster.
 
+### Install example:
+Clone repository and install dependencies:
+```
+npm install
+bower install
+```
+Run the example:
+```
+gulp serve
+```
+
 ### Data format:
 
 For topojson see https://github.com/mbostock/topojson
@@ -66,8 +77,13 @@ Currently available options are:
 var options = {
   width: 960,
   height: 600,
+  projection: 'mercator',
   scale: 9500,
   center_lat: 46.801111,
-  center_lon: 8.226667
+  center_lon: 8.226667,
+  slider: true, // show slider (true/false)
+  slider_pos: 'top', // slider position ('top'/'bottom')
+  frame_length: 500,
+  legend: true // show legend (true/false)
 };
 ```

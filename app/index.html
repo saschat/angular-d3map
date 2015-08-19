@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="angular-d3map.css">
+  <link rel="stylesheet" href="bower_components/d3.slider/d3.slider.css">
+</head>
+<body ng-app="d3map-example">
+
+<h1>Angular-D3map Example:</h1>
+
+<div ng-controller="D3mapCtrl as ctrl">
+  <d3map map_data="'assets/map.json'"
+         point_data="'assets/points.json'"
+         options="ctrl.options">
+  </d3map>
+  <!-- Also works with passing data but is much slower -->
+  <!--<d3map map_data="ctrl.mapData"-->
+  <!--point_data="ctrl.pointData"-->
+  <!--options="ctrl.options">-->
+  <!--</d3map>-->
+</div>
+
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/d3/d3.js"></script>
+<script src="bower_components/topojson/topojson.js"></script>
+<script src="bower_components/d3.slider/d3.slider.js"></script>
+<script src="angular-d3map.js"></script>
+
+<script src="scripts/app.js"></script>
+
+</body>
+</html>
