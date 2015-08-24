@@ -10,11 +10,11 @@ angular
         height: 600,
         projection: 'mercator',
         scale: 9500,
-        center_lat: 46.801111,
-        center_lon: 8.226667,
+        centerLat: 46.801111,
+        centerLon: 8.226667,
         slider: true, // show slider (true/false)
-        slider_pos: 'top', // slider position ('top'/'bottom')
-        frame_length: 500,
+        sliderPos: 'top', // slider position ('top'/'bottom')
+        frameLength: 500,
         legend: true // show legend (true/false)
       };
 

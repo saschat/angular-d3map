@@ -17,11 +17,11 @@
             height: 600,
             projection: 'mercator',
             scale: 9500, // default 150
-            center_lat: 46.801111,
-            center_lon: 8.226667,
+            centerLat: 46.801111,
+            centerLon: 8.226667,
             slider: true,
-            slider_pos: 'top',
-            frame_length: 500,
+            sliderPos: 'top',
+            frameLength: 500,
             legend: false
           };
           scope._opt = angular.extend(defaultOptions, scope.options);
@@ -32,7 +32,7 @@
           function configMap(){
             scope.projection = d3.geo.mercator()
               .scale(scope._opt.scale)
-              .center([scope._opt.center_lon, scope._opt.center_lat]);
+              .center([scope._opt.centerLon, scope._opt.centerLat]);
 
             scope.path = d3.geo.path()
               .projection(scope.projection);
@@ -148,7 +148,7 @@
               return;
             }
             var before = null;
-            if(scope._opt.slider_pos == 'top'){
+            if(scope._opt.sliderPos == 'top'){
               before = '#map-container';
             }
             scope.sliderContainer.remove();
@@ -209,7 +209,7 @@
               circle
                 .transition()
                 .ease("linear")
-                .duration(scope._opt.frame_length)
+                .duration(scope._opt.frameLength)
                 .attr("r", function(d){
                   return circleSize(getPointValue(d, index));
                 })
@@ -264,7 +264,7 @@
                 clearInterval(scope.interval);
               }
 
-            }, scope._opt.frame_length);
+            }, scope._opt.frameLength);
           }
 
           function createSliderBar(){
@@ -293,7 +293,7 @@
                 }
                 //sliderBar.on("mousemove", sliderProbe)
               })
-              .animate(scope._opt.frame_length)
+              .animate(scope._opt.frameLength)
               .value(val);
 
             sliderBar.call(scope.slider);
