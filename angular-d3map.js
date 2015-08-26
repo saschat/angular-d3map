@@ -294,7 +294,7 @@
             if(scope.currentFrame && scope.slider){
               var iStr = scope.currentFrame.toString();
               var html = "<span>" + scope._pointData.labels[iStr] + "</span> ";
-              d3.select("#slider-label p#label-text").html(html);
+              scope.sliderContainer.select("#slider-label p#label-text").html(html);
             }
           }
 
