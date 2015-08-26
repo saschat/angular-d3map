@@ -22,7 +22,9 @@
             slider: true,
             sliderPos: 'top',
             frameLength: 500,
-            legend: false
+            legend: false,
+            annotate: false,
+            probe: true
           };
           scope._opt = angular.extend(defaultOptions, scope.options);
           configMap();
@@ -117,26 +119,55 @@
               .attr("id", "points");
             angular.forEach(scope._pointData.points, function(point, i){
               var projected = scope.projection([point.lon, point.lat]);
-              scope.points.append("circle")
+              var circle = scope.points.append("circle")
                 .datum(point)
                 .attr("cx", projected[0])
                 .attr("cy", projected[1])
                 .attr("r", 1)
-                .attr("vector-effect", "non-scaling-stroke")
-                .on("mousemove", function(d){
-                  scope.mapProbeData = d;
-                  setMapProbeContent();
-                  scope.mapProbe
-                    .style({
-                      "display": "block",
-                      "top": (d3.event.pageY - scope.points.property("offsetParent").offsetTop - 80) + "px",
-                      "left": (d3.event.pageX - scope.points.property("offsetParent").offsetLeft + 10) + "px"
-                    })
-                })
-                .on("mouseout", function(){
-                  scope.mapProbeData = null;
-                  scope.mapProbe.style("display", "none");
-                })
+                .attr("vector-effect", "non-scaling-stroke");
+              // make point clickable
+              if(point.link){
+                circle.on("click", function(d){
+                  window.location = d.link;
+                });
+              }
+              // show probe
+              if(scope._opt.probe){
+                circle
+                  .on("mousemove", function(d){
+                    scope.mapProbeData = d;
+                    setMapProbeContent();
+                    scope.mapProbe
+                      .style({
+                        "display": "block",
+                        "top": (d3.event.pageY - scope.points.property("offsetParent").offsetTop - 80) + "px",
+                        "left": (d3.event.pageX - scope.points.property("offsetParent").offsetLeft + 10) + "px"
+                      })
+                  })
+                  .on("mouseout", function(){
+                    scope.mapProbeData = null;
+                    scope.mapProbe.style("display", "none");
+                  });
+              }
+              // annotate value
+              if(scope._opt.annotate){
+                var annotation = scope.points.append("g")
+                  .datum(point)
+                  .attr("class", "annotation")
+                  .attr("transform", "translate(" + projected[0] + "," + projected[1] + ")");
+                annotation.append("rect")
+                  .attr("width", 0)
+                  .attr("height", 0)
+                  .attr("rx", 3)
+                  .attr("ry", 3)
+                  .attr("fill", "white")
+                  .attr("stroke", "black")
+                  .attr("stroke-width", 1);
+                annotation.append("text")
+                  .attr("font-size", "12px")
+                  .attr("x", 10)
+                  .attr("y", -14);
+              }
             });
             // init circles to first value
             scope.currentFrame = scope._pointData.range.min;
@@ -205,6 +236,28 @@
           function drawPointsForValue(intertween){
             var index = scope.currentFrame;
             var circle = scope.points.selectAll("circle");
+            if(scope._opt.annotate){
+              var annotation = scope.points.selectAll(".annotation");
+              annotation.each(function(d, i){
+                var value = getPointValue(d, index);
+                var text = d3.select(this).select("text");
+                text.text(value == 0 ? "" : value);
+                var box = text.node().getBBox();
+                if(box.width > 0){
+                  d3.select(this).select("rect")
+                    .attr("x", box.x - 5)
+                    .attr("y", box.y - 3)
+                    .attr("width", box.width + 10)
+                    .attr("height", box.height + 6);
+                }
+                else{
+                  d3.select(this).select("rect")
+                    .attr("width", 0)
+                    .attr("height", 0);
+                }
+              });
+            }
+
             if(intertween){
               circle
                 .transition()
