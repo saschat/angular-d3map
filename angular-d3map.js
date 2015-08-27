@@ -93,18 +93,56 @@
             scope.map.remove();
             scope.map = scope.mapGroup.append("g")
               .attr("id", "map");
-            scope.map.append("path")
-              .datum(topojson.feature(scope._mapData, scope._mapData.objects.country))
-              .attr("class", "country")
-              .attr("d", scope.path);
-            scope.map.append("path")
-              .datum(topojson.feature(scope._mapData, scope._mapData.objects.lakes))
-              .attr("class", "lake")
-              .attr("d", scope.path);
+            // country
+            scope.map.append("g")
+              .attr("id", "countries")
+              .selectAll()
+                .data(topojson.feature(scope._mapData, scope._mapData.objects.country).features)
+              .enter().append("path")
+                .attr("class", "country")
+                .attr("d", scope.path)
+                .attr("id", function(d){
+                  //console.log(d.id);
+                  return "id-" + d.id;
+                });
+            // lakes
+            scope.map.append("g")
+              .attr("id", "lakes")
+              .selectAll()
+                .data(topojson.feature(scope._mapData, scope._mapData.objects.lakes).features)
+              .enter().append("path")
+                .attr("class", "lake")
+                .attr("d", scope.path)
+                .attr("id", function(d){
+                  //console.log(d.id);
+                  return "id-" + d.id;
+                });
+            // cantons
+            scope.map.append("g")
+              .attr("id", "cantons")
+              .selectAll()
+                .data(topojson.feature(scope._mapData, scope._mapData.objects.cantons).features)
+              .enter().append("path")
+                .attr("class", "canton")
+                .attr("d", scope.path)
+                .attr("id", function(d){
+                  //console.log(d.id);
+                  return "id-" + d.id;
+                });
+                //.on("mouseover", function(d){
+                //  console.log(d.id);
+                //  d3.select(this).attr("class","canton-hover")
+                //})
+                //.on("mouseout", function(d){
+                //  console.log(d.id);
+                //  d3.select(this).attr("class","canton")
+                //});
+            // country boundries
             scope.map.append("path")
               .datum(topojson.feature(scope._mapData, scope._mapData.objects.country))
               .attr("class", "country-boundaries")
               .attr("d", scope.path);
+            // canton boundries
             scope.map.append("path")
               .datum(topojson.mesh(scope._mapData, scope._mapData.objects.cantons, function(a, b){
                 return a !== b;
@@ -118,35 +156,61 @@
             scope.points = scope.mapGroup.append("g")
               .attr("id", "points");
             angular.forEach(scope._pointData.points, function(point, i){
-              var projected = scope.projection([point.lon, point.lat]);
-              var circle = scope.points.append("circle")
-                .datum(point)
-                .attr("cx", projected[0])
-                .attr("cy", projected[1])
-                .attr("r", 1)
-                .attr("vector-effect", "non-scaling-stroke");
+              var projected;
+              var data_obj;
+              if(point.type == 'feature'){
+                var feature_obj = scope.map.select('#'+point.featureClass)
+                  .selectAll("path#id-"+point.featureId);
+                if(feature_obj.length == 0){
+                  return
+                }
+                projected = scope.path.centroid(feature_obj[0][0].__data__);
+                //projected[0] -= 10;
+                projected[1] += 14; // offset for text
+                data_obj = scope.points.append("path")
+                  .datum(point)
+                  .attr("d", feature_obj.attr("d"))
+                  .attr("class", "feature");
+              }
+              else{ //if(point.type == 'location')
+                projected = scope.projection([point.lon, point.lat]);
+                data_obj = scope.points.append("circle")
+                  .datum(point)
+                  .attr("cx", projected[0])
+                  .attr("cy", projected[1])
+                  .attr("r", 1)
+                  .attr("vector-effect", "non-scaling-stroke");
+              }
               // make point clickable
               if(point.link){
-                circle.on("click", function(d){
+                data_obj.on("click", function(d){
                   window.location = d.link;
                 });
               }
               // show probe
               if(scope._opt.probe){
-                circle
+                data_obj
+                  .on("mouseover", function(d){
+                    if(scope.currentFrame in d.values){
+                      d3.select(this).style("opacity", 0.3)
+                    }
+                  })
                   .on("mousemove", function(d){
-                    scope.mapProbeData = d;
-                    setMapProbeContent();
-                    scope.mapProbe
-                      .style({
-                        "display": "block",
-                        "top": (d3.event.pageY - scope.points.property("offsetParent").offsetTop - 80) + "px",
-                        "left": (d3.event.pageX - scope.points.property("offsetParent").offsetLeft + 10) + "px"
-                      })
+                    if(scope.currentFrame in d.values){
+                      scope.mapProbeData = d;
+                      setMapProbeContent();
+                      scope.mapProbe
+                        .style({
+                          "display": "block",
+                          "top": (d3.event.pageY - scope.points.property("offsetParent").offsetTop - 80) + "px",
+                          "left": (d3.event.pageX - scope.points.property("offsetParent").offsetLeft + 10) + "px"
+                        })
+                    }
                   })
                   .on("mouseout", function(){
                     scope.mapProbeData = null;
                     scope.mapProbe.style("display", "none");
+                    d3.select(this).style("opacity", null)
                   });
               }
               // annotate value
@@ -154,7 +218,7 @@
                 var annotation = scope.points.append("g")
                   .datum(point)
                   .attr("class", "annotation")
-                  .attr("transform", "translate(" + projected[0] + "," + projected[1] + ")");
+                  .attr("transform", "translate(" + projected + ")");
                 annotation.append("rect")
                   .attr("width", 0)
                   .attr("height", 0)
@@ -165,7 +229,8 @@
                   .attr("stroke-width", 1);
                 annotation.append("text")
                   .attr("font-size", "12px")
-                  .attr("x", 10)
+                  .attr("text-anchor", "middle")
+                  .attr("x", 0) //10 if not  anchor middle
                   .attr("y", -14);
               }
             });

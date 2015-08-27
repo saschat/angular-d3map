@@ -43,7 +43,11 @@
   },
   "points": [
     {
+      "type": "feature",
       "name": "Somewhere in the middle",
+      "link": "http://www.google.com",
+      "featureClass": "cantons",
+      "featureId": 1,
       "lat": 47.05015,
       "lon": 8.714317,
       "values": {
@@ -73,6 +77,7 @@
       }
     },
     {
+      "type": "location",
       "name": "A sunny place",
       "lat": 46.58501,
       "lon": 6.658924,
@@ -116,6 +121,7 @@
       }
     },
     {
+      "type": "location",
       "name": "A hilly place",
       "lat": 46.49397,
       "lon": 9.889431,

@@ -22,6 +22,21 @@
   stroke-width: 1;
 }
 
+.feature {
+  fill: #000;
+  opacity: 0.0;
+}
+
+.canton {
+  fill: #ddd;
+  opacity: 0.0;
+}
+
+.canton-hover {
+  fill: #ddd;
+  opacity: 0.5;
+}
+
 .canton-boundaries {
   fill: none;
   /* stroke: #111111; */
