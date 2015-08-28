@@ -23,7 +23,7 @@
             sliderPos: 'top',
             frameLength: 500,
             legend: false,
-            annotate: false,
+            annotate: true,
             probe: true
           };
           scope._opt = angular.extend(defaultOptions, scope.options);
@@ -298,6 +298,16 @@
             }
           }
 
+          function getPointLabel(index){
+            var iStr = index.toString();
+            if(typeof scope._pointData.labels[iStr] === 'undefined'){
+              return "";
+            }
+            else{
+              return scope._pointData.labels[iStr];
+            }
+          }
+
           function drawPointsForValue(intertween){
             var index = scope.currentFrame;
             var circle = scope.points.selectAll("circle");
@@ -305,8 +315,9 @@
               var annotation = scope.points.selectAll(".annotation");
               annotation.each(function(d, i){
                 var value = getPointValue(d, index);
+                var label = getPointLabel(index);
                 var text = d3.select(this).select("text");
-                text.text(value == 0 ? "" : value);
+                text.text(value == 0 ? "" : label + ": " + value);
                 var box = text.node().getBBox();
                 if(box.width > 0){
                   d3.select(this).select("rect")
