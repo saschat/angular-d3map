@@ -202,8 +202,8 @@
                       scope.mapProbe
                         .style({
                           "display": "block",
-                          "top": (d3.event.pageY - scope.points.property("offsetParent").offsetTop - 80) + "px",
-                          "left": (d3.event.pageX - scope.points.property("offsetParent").offsetLeft + 10) + "px"
+                          "top": (d3.event.pageY - scope.mapContainer.property("offsetParent").offsetTop - 80) + "px",
+                          "left": (d3.event.pageX - scope.mapContainer.property("offsetParent").offsetLeft + 10) + "px"
                         })
                     }
                   })
